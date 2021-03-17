@@ -2,13 +2,8 @@ import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import { Button, InputAdornment, TextField } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useHistory } from 'react-router';
 
@@ -76,17 +71,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header() {
+export default function Header(props) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const history = useHistory()
-console.log(history,'history');
+  const history = useHistory();
+  const searchOptions = ["Delivery", "Breakfast", "Lunch", "Dinner", "Cafes"];
   return (
     <div className={classes.grow}>
-      <AppBar position="static" style={{backgroundColor:"#dc143c"}}>
+      <AppBar position="static" style={{backgroundColor: props.clr || "#dc143c", width: props.width, alignContent:  props.align}}>
         <Toolbar style={{alignItems:"center"}}>
-          <Typography className={classes.title} variant="h6" noWrap style={{marginRight:"20px", fontSize:"20px" }} onClick={()=> history.push("/")}>              
+          <Typography className={classes.title} variant="h6" noWrap style={{marginRight:"20px", fontSize:"25px", color: props.txtClr, fontWeight: 600, fontFamily: "Times New Roman", width: "100px"}} onClick={()=> history.push("/")}>              
             Zomato
           </Typography>
 
@@ -98,9 +91,6 @@ console.log(history,'history');
         style={{ width: 300 }}
         renderInput={(params) => (
           <TextField {...params} variant="outlined" placeholder="Favorites" style={{backgroundColor:'white'}}
-        //   InputProps={{
-        //     startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
-        //   }}
           />
         )}
       />
@@ -109,14 +99,11 @@ console.log(history,'history');
           <Autocomplete
         id="size-small-outlined"
         size="small"
-        options={["Lunch"]}
+        options={searchOptions}
         style={{ width: 500 }}
         onChange={(event, value)=> history.push(value)}
         renderInput={(params) => (
           <TextField {...params} variant="outlined" placeholder="Search for restaurants or cuisines.." style={{backgroundColor:'white'}}
-        //   InputProps={{
-        //     startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
-        //   }}
           />
         )}
       />
